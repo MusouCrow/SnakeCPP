@@ -1,4 +1,6 @@
 #include "core.h"
+#include "tester.h"
+#include "game_object.h"
 
 Core::Core(const string& title, int width, int height) {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -14,13 +16,18 @@ Core::Core(const string& title, int width, int height) {
     }
     
     this->p_window = window;
+
+    auto game_obj = GameObject();
+    auto p_tester = new Tester();
+    game_obj.AddComponent(p_tester);
+    
+    auto p_tester2 = dynamic_cast<Tester*>(game_obj.GetComponent(p_tester->GetName()));
+    p_tester2->Fuck();
 }
 
 Core::~Core() {
     SDL_DestroyWindow(this->p_window);
     SDL_Quit();
-
-    delete this->p_window;
 }
 
 void Core::Update() {
