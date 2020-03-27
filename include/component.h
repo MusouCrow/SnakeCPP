@@ -6,13 +6,10 @@
 #include "common.h"
 
 class Component {
-protected:
-    string name;
 public:
-    virtual void Start() {};
+    void Init() {};
     virtual void Update() {};
     virtual void Draw() {};
-    const string& GetName();
 };
 
 #endif

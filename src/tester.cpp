@@ -1,14 +1,12 @@
 #include "tester.h"
 
-Tester::Tester() {
-    this->name = "Tester";
+void Tester::Init(int value) {
+    cout << value << endl;
 }
 
-void Tester::Start() {
-    cout << "start" << endl;
+void Tester::Update() {
+    cout << "Update" << endl;
 }
-
-void Tester::Update() {}
 
 void Tester::Fuck() {
     cout << "Fuck" << endl;

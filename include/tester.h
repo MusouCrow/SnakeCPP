@@ -7,8 +7,7 @@
 
 class Tester : public Component {
 public:
-    Tester();
-    virtual void Start();
+    void Init(int value);
     virtual void Update();
     void Fuck();
 };

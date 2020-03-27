@@ -17,12 +17,12 @@ Core::Core(const string& title, int width, int height) {
     
     this->p_window = window;
 
-    auto game_obj = GameObject();
-    auto p_tester = new Tester();
-    game_obj.AddComponent(p_tester);
+    auto go = GameObject();
+    auto tester_ptr = go.AddComponent<Tester>();
+    tester_ptr->Init(3);
+    tester_ptr->Fuck();
     
-    auto p_tester2 = dynamic_cast<Tester*>(game_obj.GetComponent(p_tester->GetName()));
-    p_tester2->Fuck();
+    go.Update();
 }
 
 Core::~Core() {
