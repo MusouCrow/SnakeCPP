@@ -8,7 +8,7 @@
 class Component {
 public:
     virtual void Update() {};
-    virtual void Draw() {};
+    virtual void Draw(SDL_Renderer* p_renderer) {};
 };
 
 #endif

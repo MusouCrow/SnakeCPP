@@ -13,7 +13,7 @@ private:
 public:
     GameObject();
     void Update();
-    void Draw();
+    void Draw(SDL_Renderer* p_renderer);
     template <class T> shared_ptr<T> AddComponent();
     template <class T> shared_ptr<T> GetComponent();
 };

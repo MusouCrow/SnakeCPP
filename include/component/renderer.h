@@ -12,7 +12,7 @@ public:
     SDL_Color color;
     int size;
     void Init(const Vector2& position, const SDL_Color& color);
-    virtual void Draw();
+    virtual void Draw(SDL_Renderer* p_renderer);
 };
 
 #endif

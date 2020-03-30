@@ -10,8 +10,8 @@ void GameObject::Update() {
     }
 }
 
-void GameObject::Draw() {
+void GameObject::Draw(SDL_Renderer* p_renderer) {
     for (auto iter : this->component_map) {
-        iter.second->Draw();
+        iter.second->Draw(p_renderer);
     }
 }
