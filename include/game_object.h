@@ -5,7 +5,7 @@
 
 #include <map>
 #include "common.h"
-#include "component.h"
+#include "component.hpp"
 
 class GameObject final {
 private:

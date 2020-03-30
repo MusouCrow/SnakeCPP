@@ -4,6 +4,7 @@
 #include <string>
 #include <memory>
 #include <iostream>
+#include "const.hpp"
 
 extern "C" {
     #include <SDL2/SDL.h>

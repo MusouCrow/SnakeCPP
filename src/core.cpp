@@ -1,6 +1,16 @@
 #include "core.h"
-#include "tester.h"
 #include "game_object.h"
+#include "component/renderer.h"
+
+vector<shared_ptr<GameObject>> Core::game_objects;
+SDL_Renderer* p_renderer = nullptr;
+
+shared_ptr<GameObject> Core::AddGameObject() {
+    auto p_go = make_shared<GameObject>();
+    Core::game_objects.push_back(p_go);
+    
+    return p_go;
+}
 
 Core::Core(const string& title, int width, int height) {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -16,13 +26,12 @@ Core::Core(const string& title, int width, int height) {
     }
     
     this->p_window = window;
-
-    auto go = GameObject();
-    auto tester_ptr = go.AddComponent<Tester>();
-    tester_ptr->Init(3);
-    tester_ptr->Fuck();
     
-    go.Update();
+    /*
+    auto p_go = Core::AddGameObject();
+    auto p_renderer = p_go->AddComponent<Renderer>();
+    p_renderer->Init(Vector2 {5, 5}, SDL_Color {255, 255, 255, 255});
+    */
 }
 
 Core::~Core() {
@@ -36,8 +45,14 @@ void Core::Update() {
             exit(1);
         }
     }
+
+    for (auto p : Core::game_objects) {
+        p->Update();
+    }
 }
 
 void Core::Draw() {
-
+    for (auto p : Core::game_objects) {
+        p->Draw();
+    }
 }
