@@ -8,11 +8,14 @@
 
 class Renderer : public Component {
 public:
-    Vector2 position;
     SDL_Color color;
-    int size;
-    void Init(const Vector2& position, const SDL_Color& color);
+    void Init(const Vector2& position, const SDL_Color& color, int size);
     virtual void Draw(SDL_Renderer* p_renderer);
+    Vector2 GetPosition();
+    void SetPosition(int x, int y);
+private:
+    SDL_Rect rect;
+    int sub;
 };
 
 #endif
