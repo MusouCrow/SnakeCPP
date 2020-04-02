@@ -3,19 +3,21 @@
 #ifndef COMPONENT_RENDERER_H
 #define COMPONENT_RENDERER_H
 
+#include <functional>
 #include "component.hpp"
+#include "transform.h"
 #include "util/vector2.hpp"
 
 class Renderer : public Component {
 public:
     SDL_Color color;
-    void Init(const Vector2& position, const SDL_Color& color, int size);
+    ~Renderer();
+    void Init(shared_ptr<Transform> p_transform, const SDL_Color& color, int size);
     virtual void Draw(SDL_Renderer* p_renderer);
-    Vector2 GetPosition();
-    void SetPosition(int x, int y);
 private:
     SDL_Rect rect;
-    int sub;
+    shared_ptr<Transform> p_transform;
+    function<void(int, int)> on_set_position;
 };
 
 #endif

@@ -1,5 +1,6 @@
 #include "core.h"
 #include "game_object.h"
+#include "component/transform.h"
 #include "component/renderer.h"
 
 Core& Core::GetInstance() {
@@ -26,8 +27,12 @@ void Core::Init(const string& title, int width, int height) {
 
     for (int i = 0; i < 3; i++) {
         auto p_go = this->AddGameObject();
+        auto p_transform = p_go->AddComponent<Transform>();
         auto p_renderer = p_go->AddComponent<Renderer>();
-        p_renderer->Init(Vector2 {i, 0}, SDL_Color {255, 0, 0, 255}, 30);
+        
+        p_transform->Init(Vector2 {i, 0});
+        p_renderer->Init(p_transform, SDL_Color {255, 0, 0, 255}, 30);
+        p_transform->SetPosition(i, 3);
     }
 }
 
