@@ -15,28 +15,5 @@ void Transform::SetPosition(int x, int y) {
     this->position.x = pos.x;
     this->position.y = pos.y;
     
-    for (auto f : this->set_position_event) {
-        (*f)(pos.x, pos.y);
-    }
+    this->set_position_event(pos.x, pos.y);
 }
-
-bool Transform::BindSetPosition(function<void(int, int)>* func) {
-    if (this->set_position_event.find(func) != this->set_position_event.end()) {
-        return false;
-    }
-    
-    this->set_position_event.insert(func);
-    
-    return true;
-}
-
-bool Transform::UnbindSetPosition(function<void(int, int)>* func) {
-    if (this->set_position_event.find(func) == this->set_position_event.end()) {
-        return false;
-    }
-    
-    this->set_position_event.erase(func);
-    
-    return true;
-}
-

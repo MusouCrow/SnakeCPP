@@ -1,4 +1,5 @@
 #include "core.h"
+#include "game.h"
 
 Core* Core::GetInstance() {
     static Core core;
@@ -35,42 +36,16 @@ void Core::Update() {
         }
     }
 
-    for (auto p : this->game_objects) {
-        p->Update();
-    }
+    Game::GetInstance()->Update();
 }
 
 void Core::Draw() {
     SDL_SetRenderDrawColor(this->p_renderer, 49, 77, 121, 255);
     SDL_RenderClear(this->p_renderer);
-    
-    int w, h;
-    SDL_GetWindowSize(this->p_window, &w, &h);
 
-    if (GIZMOS) {
-        SDL_SetRenderDrawColor(this->p_renderer, 255, 255, 255, 255);
-
-        for (int i = 0; i < h / GRID_SIZE; i++) {
-            SDL_RenderDrawLine(this->p_renderer, 0, i * GRID_SIZE, w, i * GRID_SIZE);
-        }
-
-        for (int i = 0; i < w / GRID_SIZE; i++) {
-            SDL_RenderDrawLine(this->p_renderer, i * GRID_SIZE, 0, i * GRID_SIZE, h);
-        }
-    }
-
-    for (auto p : this->game_objects) {
-        p->Draw(this->p_renderer);
-    }
+    Game::GetInstance()->Draw(this->p_renderer);
 
     SDL_RenderPresent(this->p_renderer);   
-}
-
-shared_ptr<GameObject> Core::AddGameObject() {
-    auto p_go = make_shared<GameObject>();
-    this->game_objects.push_back(p_go);
-    
-    return p_go;
 }
 
 Vector2 Core::GetScreenSize() {
