@@ -6,16 +6,17 @@
 #include <vector>
 #include "common.h"
 #include "game_object.h"
+#include "util/vector2.hpp"
 
 class Core {
 public:
-    static Core& GetInstance();
+    static Core* GetInstance();
     ~Core();
     void Init(const string& title, int width, int height);
     void Update();
     void Draw();
     shared_ptr<GameObject> AddGameObject();
-    SDL_Renderer* GetRenderer();
+    Vector2 GetScreenSize();
 private:
     SDL_Event event;
     SDL_Window* p_window;

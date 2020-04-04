@@ -1,12 +1,9 @@
 #include "core.h"
-#include "game_object.h"
-#include "component/transform.h"
-#include "component/renderer.h"
 
-Core& Core::GetInstance() {
+Core* Core::GetInstance() {
     static Core core;
 
-    return core;
+    return &core;
 }
 
 void Core::Init(const string& title, int width, int height) {
@@ -24,16 +21,6 @@ void Core::Init(const string& title, int width, int height) {
     
     this->p_window = p_window;
     this->p_renderer = SDL_CreateRenderer(p_window, -1, SDL_RENDERER_ACCELERATED);
-
-    for (int i = 0; i < 3; i++) {
-        auto p_go = this->AddGameObject();
-        auto p_transform = p_go->AddComponent<Transform>();
-        auto p_renderer = p_go->AddComponent<Renderer>();
-        
-        p_transform->Init(Vector2 {i, 0});
-        p_renderer->Init(p_transform, SDL_Color {255, 0, 0, 255}, 30);
-        p_transform->SetPosition(i, 3);
-    }
 }
 
 Core::~Core() {
@@ -86,6 +73,9 @@ shared_ptr<GameObject> Core::AddGameObject() {
     return p_go;
 }
 
-SDL_Renderer* Core::GetRenderer() {
-    return this->p_renderer;
+Vector2 Core::GetScreenSize() {
+    int w, h;
+    SDL_GetWindowSize(this->p_window, &w, &h);
+
+    return Vector2 {w, h};
 }

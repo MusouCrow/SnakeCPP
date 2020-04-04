@@ -1,4 +1,5 @@
 #include "component/transform.h"
+#include "field.h"
 
 void Transform::Init(const Vector2& position) {
     this->SetPosition(position.x, position.y);
@@ -9,11 +10,13 @@ Vector2 Transform::GetPosition() {
 }
 
 void Transform::SetPosition(int x, int y) {
-    this->position.x = x;
-    this->position.y = y;
+    auto p_field = Field::GetInstance();
+    auto pos = p_field->TranslatePosition(x, y);
+    this->position.x = pos.x;
+    this->position.y = pos.y;
     
     for (auto f : this->set_position_event) {
-        (*f)(x, y);
+        (*f)(pos.x, pos.y);
     }
 }
 
