@@ -6,4 +6,6 @@
 const int GRID_SIZE = 32;
 const bool GIZMOS = false;
 
+enum Direction {up, down, right, left};
+
 #endif
