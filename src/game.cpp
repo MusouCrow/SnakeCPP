@@ -1,5 +1,7 @@
 #include "game.h"
 #include "core.h"
+#include "factory.h"
+#include "component/food.h"
 
 Game* Game::GetInstance() {
     static Game Game;
@@ -17,9 +19,14 @@ void Game::Update() {
     if (time - this->later_time >= this->interval) {
         this->tick_event();
         this->later_time = time;
+        this->AdjustInterval();
+
+        if (Food::count <= 0) {
+            this->ProduceFood();
+        }
     }
     
-    for (auto p : this->game_objects) {
+    for (auto p : this->game_object_set) {
         p->Update();
     }
 }
@@ -39,18 +46,37 @@ void Game::Draw(SDL_Renderer* p_renderer) {
         }
     }
 
-    for (auto p : this->game_objects) {
+    for (auto p : this->game_object_set) {
         p->Draw(p_renderer);
     }
 }
 
 shared_ptr<GameObject> Game::AddGameObject() {
     auto p_go = make_shared<GameObject>();
-    this->game_objects.push_back(p_go);
+    this->game_object_set.insert(p_go);
     
     return p_go;
 }
 
+bool Game::DelGameObject(shared_ptr<GameObject> p_go) {
+    if (this->game_object_set.find(p_go) == this->game_object_set.end()) {
+        return false;
+    }
+    
+    this->game_object_set.erase(p_go);
+    return true;
+}
+
 void Game::AdjustInterval() {
-    this->interval = 1000;
+    this->interval = 500;
+}
+
+void Game::ProduceFood() {
+    static int count = 4;
+
+    for (int i = 0; i < count; i++) {
+        Factory::NewFood();
+    }
+
+    count++;
 }

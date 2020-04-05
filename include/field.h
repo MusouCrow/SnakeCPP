@@ -11,7 +11,7 @@
 class Field {
 public:
     static Field* GetInstance();
-    bool AddGrid(const Vector2& position, shared_ptr<GameObject> gameObject);
+    void AddGrid(const Vector2& position, shared_ptr<GameObject> gameObject);
     bool DelGrid(const Vector2& position);
     shared_ptr<GameObject> GetGrid(const Vector2& position);
     Vector2 GetDimension();

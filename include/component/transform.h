@@ -18,7 +18,7 @@ public:
     void SetPosition(int x, int y);
 private:
     Vector2 position;
-    shared_ptr<GameObject> p_game_object;
+    weak_ptr<GameObject> p_game_object;
 };
 
 #endif

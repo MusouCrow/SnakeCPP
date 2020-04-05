@@ -13,9 +13,10 @@ public:
     ~Head();
     void Init(shared_ptr<Transform> p_transform);
     virtual void Update();
-    void SetDirection(const Direction& direction);
+    void Turn(const Direction& direction);
 private:
     Direction direction;
+    Direction next_direction;
     shared_ptr<Transform> p_transform;
     function<void(int, int)> on_set_position;
     function<void()> on_tick;

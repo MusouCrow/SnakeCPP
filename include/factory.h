@@ -9,6 +9,7 @@
 class Factory {
 public:
     static shared_ptr<GameObject> NewHead();
+    static shared_ptr<GameObject> NewFood();
 };
 
 #endif

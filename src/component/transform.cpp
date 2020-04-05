@@ -14,15 +14,10 @@ void Transform::SetPosition(int x, int y) {
     auto p_field = Field::GetInstance();
     auto pos = p_field->TranslatePosition(x, y);
 
-    if (this->position == pos) {
-        return;
-    }
-
     p_field->DelGrid(this->position);
-    p_field->AddGrid(pos, this->p_game_object);
-    
     this->position.x = pos.x;
     this->position.y = pos.y;
 
     this->set_position_event(pos.x, pos.y);
+    p_field->AddGrid(pos, shared_ptr<GameObject>(this->p_game_object));
 }

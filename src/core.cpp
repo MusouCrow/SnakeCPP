@@ -1,5 +1,6 @@
 #include "core.h"
 #include "game.h"
+#include "input.h"
 
 Core* Core::GetInstance() {
     static Core core;
@@ -35,7 +36,8 @@ void Core::Update() {
             exit(1);
         }
     }
-
+    
+    Input::GetInstance()->Update(this->event);
     Game::GetInstance()->Update();
 }
 

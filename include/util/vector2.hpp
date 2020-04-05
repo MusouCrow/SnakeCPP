@@ -19,20 +19,12 @@ typedef struct Vector2 {
         return this->x != other.x || this->y != other.y;
     }
 
-    bool operator<=(const Vector2& other) const {
-        return (this->x + this->y) <= (other.x + other.y);
-    }
-
-    bool operator>=(const Vector2& other) const {
-        return (this->x + this->y) >= (other.x + other.y);
-    }
-
     bool operator<(const Vector2& other) const {
-        return (this->x + this->y) < (other.x + other.y);
+        return (this->x * 100 + this->y) < (other.x * 100 + other.y);
     }
 
     bool operator>(const Vector2& other) const {
-        return (this->x + this->y) > (other.x + other.y);
+        return (this->x * 100 + this->y) > (other.x * 100 + other.y);
     }
 } Vector2;
 

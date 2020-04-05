@@ -7,14 +7,8 @@ Field* Field::GetInstance() {
     return &field;
 }
 
-bool Field::AddGrid(const Vector2& position, shared_ptr<GameObject> gameObject) {
-    if (this->grid_map.find(position) != this->grid_map.end()) {
-        return false;
-    }
-
+void Field::AddGrid(const Vector2& position, shared_ptr<GameObject> gameObject) {
     this->grid_map[position] = gameObject;
-
-    return true;
 }
 
 bool Field::DelGrid(const Vector2& position) {
@@ -48,6 +42,16 @@ Vector2 Field::GetDimension() {
 
 Vector2 Field::TranslatePosition(int x, int y) {
     auto dimension = this->GetDimension();
+    x = x % dimension.x;
+    y = y % dimension.y;
+
+    if (x < 0) {
+        x = dimension.x + x;
+    }
+
+    if (y < 0) {
+        y = dimension.y + y;
+    }
     
-    return Vector2 {x % this->dimension.x, y % this->dimension.y};
+    return Vector2 {x, y};
 }

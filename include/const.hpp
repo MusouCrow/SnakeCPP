@@ -7,5 +7,6 @@ const int GRID_SIZE = 32;
 const bool GIZMOS = false;
 
 enum Direction {up, down, right, left};
+enum KeyState {none, pressed, hold, released};
 
 #endif
