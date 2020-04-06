@@ -3,33 +3,36 @@
 #ifndef EVENT_H
 #define EVENT_H
 
-#include <set>
+#include <list>
+#include <algorithm>
 #include <functional>
 #include "common.h"
 
 template <class T, class ... Args> class Event {
 public:
     void operator+=(function<T(Args...)> *func) {
-        if (this->func_set.find(func) != this->func_set.end()) {
+        if (find(this->funcs.begin(), this->funcs.end(), func) != this->funcs.end()) {
             return;
         }
         
-        this->func_set.insert(func);
+        this->funcs.push_back(func);
     };
     void operator-=(function<T(Args...)> *func) {
-        if (this->func_set.find(func) == this->func_set.end()) {
+        auto iter = find(this->funcs.begin(), this->funcs.end(), func);
+
+        if (iter == this->funcs.end()) {
             return;
         }
         
-        this->func_set.erase(func);
+        this->funcs.erase(iter);
     };
     void operator()(Args... args) {
-        for (auto f : this->func_set) {
+        for (auto f : this->funcs) {
             (*f)(args ...);
         }
     };
 private:
-    set<function<T(Args...)>*> func_set;
+    list<function<T(Args...)>*> funcs;
 };
 
 #endif

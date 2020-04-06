@@ -12,8 +12,8 @@ int main() {
     auto p_core = Core::GetInstance();
     p_core->Init("SnakeCPP", 1280, 704);
     
-    Game::GetInstance()->ProduceFood();
     Factory::NewHead();
+    Game::GetInstance()->ProduceFood();
 
     while (true) {
         p_core->Update();

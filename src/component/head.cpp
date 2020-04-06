@@ -1,15 +1,28 @@
 #include "component/head.h"
 #include "component/transform.h"
+#include "component/food.h"
+#include "component/body.h"
 #include "game.h"
 #include "input.h"
 #include "field.h"
+#include "factory.h"
 
 void Head::Init(shared_ptr<Transform> p_transform) {
     this->on_set_position = [this](int x, int y) {
         auto p_go = Field::GetInstance()->GetGrid(Vector2 {x, y});
-
+        
         if (p_go.get() != nullptr) {
-            Game::GetInstance()->DelGameObject(p_go);
+            auto p_game = Game::GetInstance();
+
+            if (p_go->GetComponent<Food>().get() != nullptr) {
+                this->Grow();
+                p_game->AdjustInterval();
+            }
+            else if (p_go->GetComponent<Body>().get() != nullptr) {
+                p_game->Over();
+            }
+            
+            p_game->DelGameObject(p_go);
         }
     };
 
@@ -38,6 +51,7 @@ void Head::Init(shared_ptr<Transform> p_transform) {
         this->p_transform->SetPosition(pos.x + move.x, pos.y + move.y);
     };
     
+    this->p_tail = p_transform;
     this->p_transform = p_transform;
     this->p_transform->set_position_event += &this->on_set_position;
 
@@ -79,4 +93,9 @@ void Head::Turn(const Direction& next) {
     if (!(ban1 || ban2 || ban3 || ban4)) {
         this->next_direction = next;
     }
+}
+
+void Head::Grow() {
+    auto p_go = Factory::NewBody(this->p_tail);
+    this->p_tail = p_go->GetComponent<Transform>();
 }

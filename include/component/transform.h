@@ -15,9 +15,11 @@ public:
     Event<void, int, int> set_position_event;
     void Init(shared_ptr<GameObject> p_game_object, const Vector2& position);
     Vector2 GetPosition();
+    Vector2 GetLatePosition();
     void SetPosition(int x, int y);
 private:
     Vector2 position;
+    Vector2 late_position;
     weak_ptr<GameObject> p_game_object;
 };
 

@@ -19,10 +19,12 @@ public:
     bool DelGameObject(shared_ptr<GameObject> p_go);
     void AdjustInterval();
     void ProduceFood();
+    void Over();
 private:
     set<shared_ptr<GameObject>> game_object_set;
     int later_time;
     int interval;
+    bool over;
 };
 
 #endif

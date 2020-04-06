@@ -2,6 +2,7 @@
 #include "core.h"
 #include "factory.h"
 #include "component/food.h"
+#include "component/body.h"
 
 Game* Game::GetInstance() {
     static Game Game;
@@ -10,17 +11,18 @@ Game* Game::GetInstance() {
 }
 
 Game::Game() {
+    this->later_time = 0;
+    this->over = false;
     this->AdjustInterval();
 }
 
 void Game::Update() {
     int time = SDL_GetTicks();
     
-    if (time - this->later_time >= this->interval) {
+    if (!this->over && time - this->later_time >= this->interval) {
         this->tick_event();
         this->later_time = time;
-        this->AdjustInterval();
-
+        
         if (Food::count <= 0) {
             this->ProduceFood();
         }
@@ -32,9 +34,8 @@ void Game::Update() {
 }
 
 void Game::Draw(SDL_Renderer* p_renderer) {
-    auto size = Core::GetInstance()->GetScreenSize();
-
     if (GIZMOS) {
+        auto size = Core::GetInstance()->GetScreenSize();
         SDL_SetRenderDrawColor(p_renderer, 255, 255, 255, 255);
 
         for (int i = 0; i < size.y / GRID_SIZE; i++) {
@@ -48,6 +49,15 @@ void Game::Draw(SDL_Renderer* p_renderer) {
 
     for (auto p : this->game_object_set) {
         p->Draw(p_renderer);
+    }
+
+    if (this->over) {
+        auto size = Core::GetInstance()->GetScreenSize();
+        auto rect = SDL_Rect {0, 0, size.x, size.y};
+
+        SDL_SetRenderDrawBlendMode(p_renderer, SDL_BLENDMODE_BLEND);
+        SDL_SetRenderDrawColor(p_renderer, 0, 0, 0, 127);
+        SDL_RenderFillRect(p_renderer, &rect);
     }
 }
 
@@ -68,7 +78,8 @@ bool Game::DelGameObject(shared_ptr<GameObject> p_go) {
 }
 
 void Game::AdjustInterval() {
-    this->interval = 500;
+    float rate = 29.0 / (9.0 * (Body::count + 1) + 20.0);
+    this->interval = 1000 * rate;
 }
 
 void Game::ProduceFood() {
@@ -79,4 +90,8 @@ void Game::ProduceFood() {
     }
 
     count++;
+}
+
+void Game::Over() {
+    this->over = true;
 }

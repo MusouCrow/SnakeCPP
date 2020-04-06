@@ -6,7 +6,7 @@
 #include <functional>
 #include "common.h"
 #include "component.hpp"
-#include "transform.h"
+#include "component/transform.h"
 
 class Head : public Component {
 public:
@@ -18,8 +18,10 @@ private:
     Direction direction;
     Direction next_direction;
     shared_ptr<Transform> p_transform;
+    shared_ptr<Transform> p_tail;
     function<void(int, int)> on_set_position;
     function<void()> on_tick;
+    void Grow();
 };
 
 #endif
