@@ -7,6 +7,7 @@
 * 编译器: Clang
 * 工程部署: CMake
 * 分辨率: 1280 * 704
+* 文章: https://musoucrow.github.io/2020/04/07/snake_cpp/
 
 ### 游戏介绍
 
